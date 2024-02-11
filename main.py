@@ -30,11 +30,8 @@ async def main():
         from info import token
     except:
         token = r.get(f'{config.Bot_id}:bote')
-        va = token.split(':')
-        Bot_id = va[0] 
         with open('info.py', 'a') as file:
             file.write(f'token = \'{token}\'\n')
-            file.write(f'Bot_id = \'{Bot_id}\'\n')
             file.close()
     try:
         from info import sudo_id
@@ -43,13 +40,11 @@ async def main():
         va = code.split(':')
         sudo_id = va[3]    
         with open('info.py', 'a') as file:
-            file.write(f'sudo_id = {get_sudo.id}\n')
+            file.write(f'sudo_id = {sudo_id}\n')
             file.close()
 
-    from info import sudo_id, Bot_id
-
     while not await sleep(10):
-        for session in db.smembers(f'{Bot_id}:{sudo_id}:sessions'):
+        for session in db.smembers(f'{config.Bot_id}:{sudo_id}:sessions'):
             folder_name = session[:50]
             folder_path = os.path.join('sessions', folder_name)
 

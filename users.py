@@ -169,7 +169,7 @@ async def auto_chat():
             try:
                 async for dialog in userbot.get_dialogs():
                     if dialog.chat.type != ChatType.PRIVATE:
-                        if dialog.chat.username in ["D_3_V", "D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
+                        if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
                             continue 
                         try:
                             await userbot.leave_chat(dialog.chat.id, delete=True)
@@ -453,7 +453,7 @@ async def block_and_leave_all(c, msg):
     await c.block_user(msg.chat.id)
     async for dialog in c.get_dialogs():
         if dialog.chat.type != ChatType.PRIVATE:
-            if dialog.chat.username in ["D_3_V", "D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
+            if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
                 continue 
             try:
                 await c.leave_chat(dialog.chat.id, delete=True)
@@ -471,7 +471,7 @@ async def block_and_leave_all(c, msg):
     await c.block_user(msg.chat.id)
     async for dialog in c.get_dialogs():
         if dialog.chat.type != ChatType.PRIVATE:
-            if dialog.chat.username in ["D_3_V", "D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
+            if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
                 continue 
             try:
                 await c.leave_chat(dialog.chat.id, delete=True)
