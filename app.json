@@ -2,12 +2,8 @@
   "name": "V1",
   "description": "بوت الخزنه",
   "logo": "https://telegra.ph/file/f5d2269e9e98faccfd5bf.jpg",  
-  "repository": "https://github.com/SINSQQ/safe",
-  "env": {
-    "TK": {
-      "description": "توكن بوت الخزنه",
-      "value": ""
-    },      
+  "repository": "https://github.com/SINSQQ/u",
+  "env": {     
     "ID": {
       "description": "كود تنصيب الخزنه",
       "value": ""
