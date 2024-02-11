@@ -1,0 +1,8 @@
+Pyrogram
+redis
+pyTelegramBotAPI
+TgCrypto
+aiohttp
+pyro-listener
+psutil
+python-dotenv==0.21.1
