@@ -5,3 +5,4 @@ from dotenv import load_dotenv
 load_dotenv()
 
 Bot_id = getenv("ID")
+APP_NEAM = getenv("APP")

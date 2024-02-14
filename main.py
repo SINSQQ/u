@@ -42,9 +42,9 @@ async def main():
         with open('info.py', 'a') as file:
             file.write(f'sudo_id = {sudo_id}\n')
             file.close()
-
+    from info import sudo_id
     while not await sleep(10):
-        for session in db.smembers(f'{config.Bot_id}:{sudo_id}:sessions'):
+        for session in db.smembers(f'{config.APP_NEAM}:{sudo_id}:sessions'):
             folder_name = session[:50]
             folder_path = os.path.join('sessions', folder_name)
 
