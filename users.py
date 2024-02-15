@@ -5,7 +5,7 @@ import string
 from asyncio import sleep, create_task, get_event_loop
 from sys import argv
 from mody.Keyboards import subs, video_url
-from mody.Edit import ed, ib
+from mody.Edit import ed, ib, ch
 from pyrogram import Client, filters, idle
 from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait, YouBlockedUser, ChannelsTooMuch
@@ -570,6 +570,55 @@ async def ctc2nbot(c, msg):  # الاشتراك الاجباري
             await join_chat(c, link, msg.chat.id)
             await sleep(1)
             await c.send_message(msg.chat.id, '/start')       
+
+async def tumblr_userbot():
+    while not await sleep(60):
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:tumblr', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:tumblr', userbot.me.id)
+            try:
+                if db.get(f'{bot.me.id}:{sudo_info.id}:sleep'):
+                    banb = db.get(f'{bot.me.id}:{sudo_info.id}:sleep')
+                else: 
+                    banb = 2  
+                for user in db.smembers(f'{bot.me.id}:{sudo_info.id}:usernames'): 
+                    posty_count = db.get(f'{bot.me.id}:{user}:posty_count')
+                    try:
+                        await join_chat(userbot, user)
+                    except:
+                        pass
+                    try:
+                        for _ in range(int(posty_count)):
+                            if not db.get(f'{bot.me.id}:{sudo_info.id}:on'):
+                                break
+                            msg = random.choice(ch)
+                            await userbot.send_message(user, msg) 
+                            await sleep(int(banb)) 
+                    except:
+                        pass 
+
+@userbot.on_message(filters.regex('👇👇👇'))
+async def start_message(c, msg): 
+    await sleep(3)
+    try:
+        await c.request_callback_answer(
+                chat_id=msg.chat.id,
+                message_id=msg.id,
+                callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data
+            )
+    except:
+        pass
+
+@userbot.on_edited_message(filters.regex('👇👇👇'))
+async def start_edited(c, msg): 
+    await sleep(3)
+    try:
+        await c.request_callback_answer(
+                chat_id=msg.chat.id,
+                message_id=msg.id,
+                callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data
+            )
+    except:
+        pass
 
 @userbot.on_message(filters.bot & filters.regex('تم التحقق') & filters.private)
 async def send_start_to_bot(c, m):
