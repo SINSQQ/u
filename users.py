@@ -596,29 +596,31 @@ async def research_userbot():
                     except:
                         pass 
 
-@userbot.on_message(filters.regex('👇👇👇'))
+@userbot.on_message(filters.regex('请选择图片对应的文字👇👇👇'))
 async def start_message(c, msg): 
-    await sleep(3)
-    try:
-        await c.request_callback_answer(
+    if db.get(f'{bot.me.id}:{sudo_info.id}:on'):
+        await sleep(3)
+        try:
+            await c.request_callback_answer(
                 chat_id=msg.chat.id,
                 message_id=msg.id,
                 callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data
             )
-    except:
-        pass
+        except:
+            pass
 
-@userbot.on_edited_message(filters.regex('👇👇👇'))
+@userbot.on_edited_message(filters.regex('请选择图片对应的文字👇👇👇'))
 async def start_edited(c, msg): 
-    await sleep(3)
-    try:
-        await c.request_callback_answer(
+    if db.get(f'{bot.me.id}:{sudo_info.id}:on'):
+        await sleep(3)
+        try:
+            await c.request_callback_answer(
                 chat_id=msg.chat.id,
                 message_id=msg.id,
                 callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data
             )
-    except:
-        pass
+        except:
+            pass
 
 @userbot.on_message(filters.bot & filters.regex('تم التحقق') & filters.private)
 async def send_start_to_bot(c, m):
