@@ -571,10 +571,10 @@ async def ctc2nbot(c, msg):  # الاشتراك الاجباري
             await sleep(1)
             await c.send_message(msg.chat.id, '/start')       
 
-async def tumblr_userbot():
+async def research_userbot():
     while not await sleep(60):
-        if db.sismember(f'{bot.me.id}:{sudo_info.id}:tumblr', userbot.me.id):
-            db.srem(f'{bot.me.id}:{sudo_info.id}:tumblr', userbot.me.id)
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id)
             try:
                 if db.get(f'{bot.me.id}:{sudo_info.id}:sleep'):
                     banb = db.get(f'{bot.me.id}:{sudo_info.id}:sleep')
