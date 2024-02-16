@@ -157,8 +157,7 @@ async def auto_us_bot():
     while not await sleep(5):
         usbot = db.get(f'{bot.me.id}:{userbot.me.id}:user')
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:ud', userbot.me.id):
-            db.srem(f'{bot.me.id}:{sudo_info.id}:ud', userbot.me.id)
-            db.set(f'{bot.me.id}:{userbot.me.id}:points', 0) 
+            db.srem(f'{bot.me.id}:{sudo_info.id}:ud', userbot.me.id) 
             try:
                 await userbot.send_message(usbot, '/start')
             except YouBlockedUser:
