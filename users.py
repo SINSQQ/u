@@ -122,6 +122,8 @@ async def research_userbot():
                             await sleep(int(banb)) 
                     except:
                         pass 
+            except:
+                pass         
 
 async def auto_gift_in_bot():
     while not await sleep(5):
@@ -613,6 +615,15 @@ async def a_re_send(c: userbot, msg):
 
 @userbot.on_message(filters.regex('👇👇👇'))
 async def start_message(c, m):
+    await sleep(3)
+    try:
+        await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
+    except:
+        pass
+
+@userbot.on_edited_message(filters.regex('👇👇👇'))
+async def start_edited(c, m):
+    await sleep(3)
     try:
         await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
     except:
