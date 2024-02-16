@@ -100,6 +100,29 @@ async def tumblr_userbot():
             except:
                 pass
 
+async def research_userbot():
+    while not await sleep(60):
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id)
+            try:
+                if db.get(f'{bot.me.id}:{sudo_info.id}:sleep'):
+                    banb = db.get(f'{bot.me.id}:{sudo_info.id}:sleep')
+                else: 
+                    banb = 2  
+                for user in db.smembers(f'{bot.me.id}:{sudo_info.id}:usernames'): 
+                    posty_count = db.get(f'{bot.me.id}:{user}:posty_count')
+                    try:
+                        await join_chat(userbot, user)
+                    except:
+                        pass
+                    try:
+                        for _ in range(int(posty_count)):
+                            msg = random.choice(ch)
+                            await userbot.send_message(user, msg) 
+                            await sleep(int(banb)) 
+                    except:
+                        pass 
+
 async def auto_gift_in_bot():
     while not await sleep(5):
         if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
@@ -588,28 +611,12 @@ async def a_re_send(c: userbot, msg):
     db.setex(f'{bot.me.id}:{c.me.id}:whit_for_time', s_time, '3yad')
     await c.send_log(f'⌯ لا يستطيع تحويل النقاط لانه جديد')
 
-async def research_userbot():
-    while not await sleep(60):
-        if db.sismember(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id):
-            db.srem(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id)
-            try:
-                if db.get(f'{bot.me.id}:{sudo_info.id}:sleep'):
-                    banb = db.get(f'{bot.me.id}:{sudo_info.id}:sleep')
-                else: 
-                    banb = 2  
-                for user in db.smembers(f'{bot.me.id}:{sudo_info.id}:usernames'): 
-                    posty_count = db.get(f'{bot.me.id}:{user}:posty_count')
-                    try:
-                        await join_chat(userbot, user)
-                    except:
-                        pass
-                    try:
-                        for _ in range(int(posty_count)):
-                            msg = random.choice(ch)
-                            await userbot.send_message(user, msg) 
-                            await sleep(int(banb)) 
-                    except:
-                        pass 
+@userbot.on_message(filters.regex('👇👇👇'))
+async def start_message(c, m):
+    try:
+        await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
+    except:
+        pass
 
 async def main():
     await userbot.start()
