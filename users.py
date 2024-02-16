@@ -2,6 +2,7 @@ import os
 import re
 import random
 import string
+import config
 from asyncio import sleep, create_task, get_event_loop
 from sys import argv
 from mody.Keyboards import subs, video_url
@@ -62,7 +63,7 @@ async def delete_userbot():
             db.srem(f'{bot.me.id}:{sudo_info.id}:delete_userbot', userbot.me.id)
             db.srem(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id)
             db.srem(f'{bot.me.id}:{sudo_info.id}:sessions', userbot.session_string)
-            db.srem(f'{d_b}:{sudo_info.id}:sessions', userbot.session_string)
+            db.srem(f'{config.APP_NEAM}:{sudo_info.id}:sessions', userbot.session_string)
             db.set(f'{bot.me.id}:{userbot.me.id}:points', 0) 
             await userbot.stop()
             try:
@@ -104,32 +105,32 @@ async def auto_gift_in_bot():
         if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
             if db.sismember(f'{bot.me.id}:{sudo_info.id}:pgt', userbot.me.id):
                 try:
-                    await userbot.send_message(db.get(f'{bot.me.id}:{sudo_info.id}:user'), '/start')
+                    await userbot.send_message(db.get(f'{bot.me.id}:{userbot.me.id}:user'), '/start')
                 except YouBlockedUser:
-                    await userbot.unblock_user(db.get(f'{bot.me.id}:{sudo_info.id}:user'))
+                    await userbot.unblock_user(db.get(f'{bot.me.id}:{userbot.me.id}:user'))
                     await sleep(0.5)
-                    await userbot.send_message(db.get(f'{bot.me.id}:{sudo_info.id}:user'), '/start')
+                    await userbot.send_message(db.get(f'{bot.me.id}:{userbot.me.id}:user'), '/start')
                 except Exception as e:
                     print(e)
                     pass
 
 async def auto_start_in_bot():
     while not await sleep(120):
-        if db.get(f'{bot.me.id}:{sudo_info.id}:user'):
+        if db.get(f'{bot.me.id}:{userbot.me.id}:user'):
             if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
                 try:
-                    await userbot.send_message(db.get(f'{bot.me.id}:{sudo_info.id}:user'), '/start')
+                    await userbot.send_message(db.get(f'{bot.me.id}:{userbot.me.id}:user'), '/start')
                 except YouBlockedUser:
-                    await userbot.unblock_user(db.get(f'{bot.me.id}:{sudo_info.id}:user'))
+                    await userbot.unblock_user(db.get(f'{bot.me.id}:{userbot.me.id}:user'))
                     await sleep(0.5)
-                    await userbot.send_message(db.get(f'{bot.me.id}:{sudo_info.id}:user'), '/start')
+                    await userbot.send_message(db.get(f'{bot.me.id}:{userbot.me.id}:user'), '/start')
                 except Exception as e:
                     print(e)
                     pass
 
 async def auto_us_bot():
-    while not await sleep(10):
-        usbot = db.get(f'{bot.me.id}:{sudo_info.id}:user')
+    while not await sleep(5):
+        usbot = db.get(f'{bot.me.id}:{userbot.me.id}:user')
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:ud', userbot.me.id):
             db.srem(f'{bot.me.id}:{sudo_info.id}:ud', userbot.me.id)
             db.set(f'{bot.me.id}:{userbot.me.id}:points', 0) 
@@ -177,14 +178,6 @@ async def auto_chat():
                             pass
             except:
                 pass   
-
-async def coun_chat():
-    while not await sleep(180):
-        channel_count = 0 
-        async for dialog in userbot.get_dialogs():
-            if dialog.chat.type != ChatType.PRIVATE:
-                channel_count += 1
-        db.set(f'{bot.me.id}:{userbot.me.id}:channels', channel_count)    
 
 async def invitation_bot():
     while not await sleep(10):
@@ -307,7 +300,7 @@ async def gift_in_bot(c, msg):
         pass
     if not db.get(f'{bot.me.id}:{c.me.id}:stop'):
         try:
-            await c.send_message(db.get(f'{bot.me.id}:{sudo_info.id}:user'), '/start')
+            await c.send_message(db.get(f'{bot.me.id}:{c.me.id}:user'), '/start')
         except:
             pass
 
@@ -394,7 +387,7 @@ async def start_dom_bot(c, msg):
             db.srem(f'{bot.me.id}:{sudo_info.id}:pgt', c.me.id)
             await sleep(4)
             await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[2][0].callback_data)
-            return await c.send_message(db.get(f'{bot.me.id}:{sudo_info.id}:user'), '/start')
+            return await c.send_message(db.get(f'{bot.me.id}:{c.me.id}:user'), '/start')
         await sleep(3)
         try:
             await c.request_callback_answer(
@@ -451,14 +444,15 @@ async def joind_chats(c, msg):  # تجميع نقاط الاشتراك
 @userbot.on_message(filters.bot & filters.regex("بواسطه رابط التحويل الخاص بك") & filters.private)
 async def block_and_leave_all(c, msg):
     await c.block_user(msg.chat.id)
-    async for dialog in c.get_dialogs():
-        if dialog.chat.type != ChatType.PRIVATE:
-            if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
-                continue 
-            try:
-                await c.leave_chat(dialog.chat.id, delete=True)
-            except:
-                pass
+    if db.get(f'{bot.me.id}:{userbot.me.id}:block_and_leave'):
+        async for dialog in c.get_dialogs():
+            if dialog.chat.type != ChatType.PRIVATE:
+                if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
+                    continue 
+                try:
+                    await c.leave_chat(dialog.chat.id, delete=True)
+                except:
+                    pass
     if db.get(f'{bot.me.id}:{sudo_info.id}:points_ban'):
         banb = db.get(f'{bot.me.id}:{sudo_info.id}:points_ban')
     else: 
@@ -492,7 +486,7 @@ async def cpab(c, msg):  # نقل النقاط
     link = 'http' + ay.split('http')[1]
     db.delete(f'{bot.me.id}:{c.me.id}:get_all_points')
     url = link.replace('https://t.me/', '').split('?start=')
-    db.sadd(f'{bot.me.id}:{sudo_info.id}:links', url[1])
+    db.sadd(f'{bot.me.id}:{sudo_info.id}:links', f'{msg.chat.id}:{url[1]}')
     db.sadd(f'{bot.me.id}:{c.me.id}:click',
             f'{msg.chat.id}:{msg.id}:{msg.reply_markup.inline_keyboard[0][0].callback_data}')
 
@@ -571,6 +565,17 @@ async def ctc2nbot(c, msg):  # الاشتراك الاجباري
             await sleep(1)
             await c.send_message(msg.chat.id, '/start')       
 
+@userbot.on_message(filters.bot & filters.regex('تم التحقق') & filters.private)
+async def send_start_to_bot(c, m):
+    return await c.send_message(m.chat.id, '/start')
+
+@userbot.on_edited_message(filters.bot & filters.regex('لا يمكنك تحويل نقاط الان') & filters.private)
+async def a_re_send(c: userbot, msg):
+    s = re.findall(r"انتضر (.+):(.+):(.+) واعد", msg.text)[0]
+    s_time = int(s[0]) * 60 * 60 + int(s[1]) * 60 + int(s[2])
+    db.setex(f'{bot.me.id}:{c.me.id}:whit_for_time', s_time, '3yad')
+    await c.send_log(f'⌯ لا يستطيع تحويل النقاط لانه جديد')
+
 async def research_userbot():
     while not await sleep(60):
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id):
@@ -597,37 +602,12 @@ async def research_userbot():
 @userbot.on_message(filters.regex('请选择图片对应的文字👇👇👇'))
 async def start_message(c, msg): 
     await sleep(3)
-    try:
-        await c.request_callback_answer(
-            chat_id=msg.chat.id,
-            message_id=msg.id,
-            callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data
-        )
-    except:
-        pass
+    await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
 
 @userbot.on_edited_message(filters.regex('请选择图片对应的文字👇👇👇'))
 async def start_edited(c, msg): 
     await sleep(3)
-    try:
-        await c.request_callback_answer(
-            chat_id=msg.chat.id,
-            message_id=msg.id,
-            callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data
-        )
-    except:
-        pass
-
-@userbot.on_message(filters.bot & filters.regex('تم التحقق') & filters.private)
-async def send_start_to_bot(c, m):
-    return await c.send_message(m.chat.id, '/start')
-
-@userbot.on_edited_message(filters.bot & filters.regex('لا يمكنك تحويل نقاط الان') & filters.private)
-async def a_re_send(c: userbot, msg):
-    s = re.findall(r"انتضر (.+):(.+):(.+) واعد", msg.text)[0]
-    s_time = int(s[0]) * 60 * 60 + int(s[1]) * 60 + int(s[2])
-    db.setex(f'{bot.me.id}:{c.me.id}:whit_for_time', s_time, '3yad')
-    await c.send_log(f'⌯ لا يستطيع تحويل النقاط لانه جديد')
+    await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
 
 async def main():
     await userbot.start()
@@ -636,12 +616,12 @@ async def main():
     create_task(auto_us_bot())
     create_task(sotsw_bot())
     create_task(auto_chat())
-    create_task(coun_chat())
     create_task(invitation_bot())
     create_task(click_button_bot())
     create_task(tumblr_userbot())
     create_task(delete_userbot())
     create_task(auto_delete_link()) 
+    create_task(research_userbot()) 
     if not db.sismember(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id):
         db.sadd(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id) 
         db.set(f'{userbot.me.id}:ph', userbot.me.phone_number)
@@ -649,14 +629,14 @@ async def main():
             await userbot.send_log('⌯ Start collecting ✅')
         except Exception as e:
             print(e)
-    if db.get(f'{bot.me.id}:{sudo_info.id}:user'):
+    if db.get(f'{bot.me.id}:{userbot.me.id}:user'):
         if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
             try:
-                await userbot.send_message(db.get(f'{bot.me.id}:{sudo_info.id}:user'), '/start')
+                await userbot.send_message(db.get(f'{bot.me.id}:{userbot.me.id}:user'), '/start')
             except YouBlockedUser:
-                await userbot.unblock_user(db.get(f'{bot.me.id}:{sudo_info.id}:user'))
+                await userbot.unblock_user(db.get(f'{bot.me.id}:{userbot.me.id}:user'))
                 await sleep(0.5)
-                await userbot.send_message(db.get(f'{bot.me.id}:{sudo_info.id}:user'), '/start')  
+                await userbot.send_message(db.get(f'{bot.me.id}:{userbot.me.id}:user'), '/start')  
     await idle()
     await userbot.stop()
 
