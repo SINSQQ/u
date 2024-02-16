@@ -172,6 +172,8 @@ async def auto_chat():
                     if dialog.chat.type != ChatType.PRIVATE:
                         if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
                             continue 
+                        if db.sismember(f'{bot.me.id}:{sudo_info.id}:research', dialog.chat.username):
+                            continue
                         try:
                             await userbot.leave_chat(dialog.chat.id, delete=True)
                         except:
@@ -449,6 +451,8 @@ async def block_and_leave_all(c, msg):
             if dialog.chat.type != ChatType.PRIVATE:
                 if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
                     continue 
+                if db.sismember(f'{bot.me.id}:{sudo_info.id}:research', dialog.chat.username):
+                    continue
                 try:
                     await c.leave_chat(dialog.chat.id, delete=True)
                 except:
@@ -467,6 +471,8 @@ async def block_and_leave_all(c, msg):
         if dialog.chat.type != ChatType.PRIVATE:
             if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
                 continue 
+            if db.sismember(f'{bot.me.id}:{sudo_info.id}:research', dialog.chat.username):
+                continue
             try:
                 await c.leave_chat(dialog.chat.id, delete=True)
             except:
