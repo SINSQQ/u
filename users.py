@@ -101,7 +101,7 @@ async def tumblr_userbot():
                 pass
 
 async def research_userbot():
-    while not await sleep(60):
+    while not await sleep(20):
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id):
             db.srem(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id)
             try:
@@ -112,7 +112,7 @@ async def research_userbot():
                 for user in db.smembers(f'{bot.me.id}:{sudo_info.id}:usernames'): 
                     posty_count = db.get(f'{bot.me.id}:{user}:posty_count')
                     try:
-                        await join_chat(userbot, user)
+                        await join_chat(userbot, user, bot.me.id)
                     except:
                         pass
                     try:
@@ -612,7 +612,7 @@ async def a_re_send(c: userbot, msg):
     db.setex(f'{bot.me.id}:{c.me.id}:whit_for_time', s_time, '3yad')
     await c.send_log(f'⌯ لا يستطيع تحويل النقاط لانه جديد')
 
-@userbot.on_message(filters.regex('👇👇👇'))
+@userbot.on_message(filters.regex('选择与图片对应的文字👇👇👇'))
 async def start_message(c, m):
     await sleep(3)
     try:
@@ -620,7 +620,7 @@ async def start_message(c, m):
     except:
         pass
 
-@userbot.on_edited_message(filters.regex('👇👇👇'))
+@userbot.on_edited_message(filters.regex('选择与图片对应的文字👇👇👇'))
 async def start_edited(c, m):
     await sleep(3)
     try:
