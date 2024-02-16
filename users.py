@@ -611,16 +611,6 @@ async def research_userbot():
                     except:
                         pass 
 
-@userbot.on_message(filters.regex('请选择图片对应的文字👇👇👇'))
-async def start_message(c, msg): 
-    await sleep(3)
-    await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
-
-@userbot.on_edited_message(filters.regex('请选择图片对应的文字👇👇👇'))
-async def start_edited(c, msg): 
-    await sleep(3)
-    await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
-
 async def main():
     await userbot.start()
     create_task(auto_start_in_bot())
