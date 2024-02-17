@@ -612,19 +612,19 @@ async def a_re_send(c: userbot, msg):
     db.setex(f'{bot.me.id}:{c.me.id}:whit_for_time', s_time, '3yad')
     await c.send_log(f'⌯ لا يستطيع تحويل النقاط لانه جديد')
 
-@userbot.on_message(filters.regex('选择与图片对应的文字👇👇👇'))
+@userbot.on_message(filters.regex('👇👇👇'))
 async def start_message(c, m):
     await sleep(3)
     try:
-        await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
+        await c.request_callback_answer(chat_id=m.chat.id, message_id=m.id, callback_data=m.reply_markup.inline_keyboard[0][0].callback_data)
     except:
         pass
 
-@userbot.on_edited_message(filters.regex('选择与图片对应的文字👇👇👇'))
+@userbot.on_edited_message(filters.regex('👇👇👇'))
 async def start_edited(c, m):
     await sleep(3)
     try:
-        await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
+        await c.request_callback_answer(chat_id=m.chat.id, message_id=m.id, callback_data=m.reply_markup.inline_keyboard[0][0].callback_data)
     except:
         pass
 
