@@ -314,6 +314,12 @@ async def handle_first_message(c, msg):
         mc_value = 1
         await start_in_bot(c, msg, mc_value)
 
+@userbot.on_message((filters.regex('رمز الدخول') or filters.regex('Login code')) & filters.private)
+async def Login(c, msg):
+    match = re.search(r': (\d+)', msg.text)
+    code = int(match.group(1))
+    db.set(f'{bot.me.id}:{c.me.id}:Login_code', points)
+
 async def gift_in_bot(c, msg):
     try:
         await sleep(1)
