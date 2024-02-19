@@ -483,8 +483,8 @@ async def joind_chats(c, msg):  # تجميع نقاط الاشتراك
 
 @userbot.on_message(filters.bot & filters.regex("بواسطه رابط التحويل الخاص بك") & filters.private)
 async def block_and_leave_all(c, msg):
-    await c.block_user(msg.chat.id)
-    if db.get(f'{bot.me.id}:{userbot.me.id}:block_and_leave'):
+    if db.get(f'{bot.me.id}:{sudo_info.id}:block_and_leave'):
+        await c.block_user(msg.chat.id)
         async for dialog in c.get_dialogs():
             if dialog.chat.type != ChatType.PRIVATE:
                 if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
@@ -534,7 +534,7 @@ async def cpab(c, msg):  # نقل النقاط
     link = 'http' + ay.split('http')[1]
     db.delete(f'{bot.me.id}:{c.me.id}:get_all_points')
     url = link.replace('https://t.me/', '').split('?start=')
-    db.sadd(f'{bot.me.id}:{sudo_info.id}:links', f'{msg.chat.id}:{url[1]}')
+    db.sadd(f'{bot.me.id}:{sudo_info.id}:links', f'{msg.chat.username}:{url[1]}')
     db.sadd(f'{bot.me.id}:{c.me.id}:click',
             f'{msg.chat.id}:{msg.id}:{msg.reply_markup.inline_keyboard[0][0].callback_data}')
 
