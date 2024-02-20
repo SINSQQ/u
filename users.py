@@ -195,11 +195,7 @@ async def auto_chat():
                 async for dialog in userbot.get_dialogs():
                     if dialog.chat.type != ChatType.PRIVATE:
                         if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
-                            continue 
-                        if db.sismember(f'{bot.me.id}:{sudo_info.id}:usernames', dialog.chat.username):
-                            continue
-                        if db.sismember(f'{bot.me.id}:{sudo_info.id}:chme', dialog.chat.username):
-                            continue                        
+                            continue                         
                         try:
                             await userbot.leave_chat(dialog.chat.id, delete=True)
                         except:
