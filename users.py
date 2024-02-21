@@ -6,7 +6,7 @@ import config
 from asyncio import sleep, create_task, get_event_loop
 from sys import argv
 from mody.Keyboards import subs, video_url
-from mody.Edit import ed, ib, ch
+from mody.Edit import ed, ib, chme
 from pyrogram import Client, filters, idle
 from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait, YouBlockedUser, ChannelsTooMuch
@@ -117,7 +117,7 @@ async def research_userbot():
                         pass
                     try:
                         for _ in range(int(posty_count)):
-                            msg = random.choice(ch)
+                            msg = random.choice(chme)
                             await userbot.send_message(user, msg) 
                             await sleep(int(banb)) 
                     except:
