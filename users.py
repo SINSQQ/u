@@ -192,10 +192,16 @@ async def auto_chat():
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:leave_all', userbot.me.id):
             db.srem(f'{bot.me.id}:{sudo_info.id}:leave_all', userbot.me.id)
             try:
+                chme = db.smembers(f'{Bot.me.id}:{client.me.id}:chme')
+                usernames = db.smembers(f'{Bot.me.id}:{client.me.id}:usernames')
                 async for dialog in userbot.get_dialogs():
                     if dialog.chat.type != ChatType.PRIVATE:
                         if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
-                            continue                         
+                            continue   
+                        if dialog.chat.username in chme:
+                            continue
+                        if dialog.chat.username in usernames:
+                            continue                      
                         try:
                             await userbot.leave_chat(dialog.chat.id, delete=True)
                         except:
@@ -481,10 +487,16 @@ async def joind_chats(c, msg):  # تجميع نقاط الاشتراك
 async def block_and_leave_all(c, msg):
     if db.get(f'{bot.me.id}:{sudo_info.id}:block_and_leave'):
         await c.block_user(msg.chat.id)
+        chme = db.smembers(f'{Bot.me.id}:{client.me.id}:chme')
+        usernames = db.smembers(f'{Bot.me.id}:{client.me.id}:usernames')
         async for dialog in c.get_dialogs():
             if dialog.chat.type != ChatType.PRIVATE:
                 if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
                     continue                 
+                if dialog.chat.username in chme:
+                    continue
+                if dialog.chat.username in usernames:
+                    continue
                 try:
                     await c.leave_chat(dialog.chat.id, delete=True)
                 except:
@@ -499,10 +511,16 @@ async def block_and_leave_all(c, msg):
 @userbot.on_message(filters.bot & filters.regex("👤 تم ارسال") & filters.private)
 async def block_and_leave_all(c, msg):
     await c.block_user(msg.chat.id)
+    chme = db.smembers(f'{Bot.me.id}:{client.me.id}:chme')
+    usernames = db.smembers(f'{Bot.me.id}:{client.me.id}:usernames')
     async for dialog in c.get_dialogs():
         if dialog.chat.type != ChatType.PRIVATE:
             if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
-                continue             
+                continue    
+            if dialog.chat.username in chme:
+                continue
+            if dialog.chat.username in usernames:
+                continue      
             try:
                 await c.leave_chat(dialog.chat.id, delete=True)
             except:
