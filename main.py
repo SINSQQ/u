@@ -8,6 +8,7 @@ import psutil
 import config
 from asyncio import get_event_loop
 from asyncio import sleep
+from mody.Redis import db
 
 async def check(users_py_path):
     for process in psutil.process_iter():
@@ -31,7 +32,7 @@ async def main():
         with open('info.py', 'a') as file:
             file.write(f'sudo_id = {config.sudo_id}\n')
             file.close()
-    from mody.Redis import db
+    
     while not await sleep(10):
         for session in db.smembers(f'{config.APP_NEAM}:{config.sudo_id}:sessions'):
             folder_name = session[:50]
