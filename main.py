@@ -8,13 +8,7 @@ import psutil
 import config
 from asyncio import get_event_loop
 from asyncio import sleep
-
-db = redis.StrictRedis(
-    host=config.host,
-    port=config.port,
-    password=config.password,
-    decode_responses=True
-)
+from mody.Redis import db
 
 async def check(users_py_path):
     for process in psutil.process_iter():
