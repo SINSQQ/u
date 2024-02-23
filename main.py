@@ -9,15 +9,13 @@ import config
 from asyncio import get_event_loop
 from asyncio import sleep
 
-redis_url = config.redis_url
-msg = redis_url.split(':')
-
 db = redis.StrictRedis(
-    host=msg[0],
-    port=msg[1],
-    password=msg[2],
+    host=config.host,
+    port=config.port,
+    password=config.password,
     decode_responses=True
 )
+
 async def check(users_py_path):
     for process in psutil.process_iter():
         try:
