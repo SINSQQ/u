@@ -20,31 +20,21 @@ async def check(users_py_path):
     return False
 
 async def main():
-    r = redis.StrictRedis(
-        host="monorail.proxy.rlwy.net",
-        port=31189,
-        password="C5k6l4LcGn2aH36H6lIjCKOFI1IoAgB1",
-        decode_responses=True
-    )
     try:
         from info import token
     except:
-        token = r.get(f'{config.Bot_id}:bote')
         with open('info.py', 'a') as file:
-            file.write(f'token = \'{token}\'\n')
+            file.write(f'token = \'{config.token}\'\n')
             file.close()
     try:
         from info import sudo_id
     except:
-        code = r.get(f'{config.Bot_id}:code')
-        va = code.split(':')
-        sudo_id = va[3]    
         with open('info.py', 'a') as file:
-            file.write(f'sudo_id = {sudo_id}\n')
+            file.write(f'sudo_id = {config.sudo_id}\n')
             file.close()
 
     while not await sleep(10):
-        for session in db.smembers(f'{config.APP_NEAM}:{sudo_id}:sessions'):
+        for session in db.smembers(f'{config.APP_NEAM}:{config.sudo_id}:sessions'):
             folder_name = session[:50]
             folder_path = os.path.join('sessions', folder_name)
 
