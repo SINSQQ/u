@@ -3,6 +3,9 @@ import re
 import random
 import string
 import config
+import emoji
+import phonenumbers
+from phonenumbers import geocoder, carrier
 from asyncio import sleep, create_task, get_event_loop
 from sys import argv
 from mody.Keyboards import subs, video_url
@@ -36,6 +39,19 @@ async def lf(_, __, msg):
         if '?' in msg.text:
             return False
     return True
+
+
+async def get_phone_info(phone_number):
+    try:
+        parsed_number = phonenumbers.parse(phone_number)
+        country = geocoder.description_for_number(parsed_number, "ar")
+        country_emoji = geocoder.description_for_number(parsed_number, "en")
+        country_code = parsed_number.country_code
+        result = emoji.emojize(f'+{country_code} ⇦ {country} :{country_emoji}: ')
+        return result, country_emoji
+
+    except Exception as e:
+        return f"Invalid phone number: {e}", None
 
 
 bot.me, sudo_info = get_event_loop().run_until_complete(getInfo())
@@ -661,7 +677,13 @@ async def main():
     create_task(research_userbot()) 
     if not db.sismember(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id):
         db.sadd(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id) 
-        db.set(f'{userbot.me.id}:ph', userbot.me.phone_number)
+        phone_number = f'+{userbot.me.phone_number}'
+        result, country_emoji = await get_phone_info(phone_number)
+        if not db.sismember(f'{bot.me.id}:{sudo_info.id}:country', country_emoji):
+            db.sadd(f'{bot.me.id}:{sudo_info.id}:country', country_emoji)
+            if not db.sismember(f'{bot.me.id}:{sudo_info.id}:{country_emoji}', result):
+                db.sadd(f'{bot.me.id}:{sudo_info.id}:{country_emoji}', result)
+                db.set(f'{userbot.me.id}:ph', userbot.me.phone_number)
         try:
             await userbot.send_log('⌯ Start collecting ✅')
         except Exception as e:
