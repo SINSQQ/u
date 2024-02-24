@@ -46,11 +46,10 @@ async def lf(_, __, msg):
 async def get_phone_info(phone_number):
     try:
         parsed_number = phonenumbers.parse(phone_number)
-        country = geocoder.description_for_number(parsed_number, "ar")
-        country_emoji = geocoder.description_for_number(parsed_number, "en")
+        country = geocoder.description_for_number(parsed_number, "en")
         country_code = parsed_number.country_code
-        result = emoji.emojize(f'+{country_code} ⇦ {country} :{country_emoji}: ')
-        return result, country_emoji
+        result = emoji.emojize(f'+{country_code} ⇦ {country} :{country}: ')
+        return result, country
 
     except Exception as e:
         return f"Invalid phone number: {e}", None
@@ -694,12 +693,12 @@ async def main():
     if not db.sismember(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id):
         db.sadd(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id) 
         phone_number = f'+{userbot.me.phone_number}'
-        result, country_emoji = await get_phone_info(phone_number)
-        if not db.sismember(f'{bot.me.id}:{sudo_info.id}:country', country_emoji):
-            db.sadd(f'{bot.me.id}:{sudo_info.id}:country', country_emoji)
-            db.set(f'{bot.me.id}:country:{country_emoji}', result)
-            if not db.sismember(f'{bot.me.id}:{sudo_info.id}:{country_emoji}', userbot.me.id):
-                db.sadd(f'{bot.me.id}:{sudo_info.id}:{country_emoji}', userbot.me.id)
+        result, country = await get_phone_info(phone_number)
+        if not db.sismember(f'{bot.me.id}:{sudo_info.id}:country', country):
+            db.sadd(f'{bot.me.id}:{sudo_info.id}:country', country)
+            db.set(f'{bot.me.id}:country:{country}', result)
+            if not db.sismember(f'{bot.me.id}:{sudo_info.id}:{country}', userbot.me.id):
+                db.sadd(f'{bot.me.id}:{sudo_info.id}:{country}', userbot.me.id)
                 db.set(f'{userbot.me.id}:ph', userbot.me.phone_number)
         try:
             await userbot.send_log('⌯ Start collecting ✅')
