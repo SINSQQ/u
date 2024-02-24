@@ -4,12 +4,14 @@ import random
 import string
 import config
 import emoji
+import requests
 import phonenumbers
+from io import BytesIO
 from phonenumbers import geocoder, carrier
 from asyncio import sleep, create_task, get_event_loop
 from sys import argv
 from mody.Keyboards import subs, video_url
-from mody.Edit import ed, ib, chme
+from mody.Edit import ed, ib, chme, ch_ed, ch_ib
 from pyrogram import Client, filters, idle
 from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait, YouBlockedUser, ChannelsTooMuch
@@ -115,7 +117,21 @@ async def tumblr_userbot():
                 await userbot.set_username(new_user)
             except:
                 pass
-
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:xstumblr', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:xstumblr', userbot.me.id) 
+            try:
+                chinese_person_url = "https://source.unsplash.com/featured/?chinese-person"
+                response = requests.get(chinese_person_url)
+                image_bytes = BytesIO(response.content)    
+                new_bio = random.choice(ch_ib)
+                new_name = random.choice(ch_ed)
+                new_user = ''.join(random.choice(string.ascii_letters) for _ in range(8))
+                await userbot.set_profile_photo(photo=image_bytes)
+                await userbot.update_profile(first_name=new_name, last_name="", bio=new_bio)
+                await userbot.set_username(new_user)
+            except:
+                pass 
+         
 async def research_userbot():
     while not await sleep(20):
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id):
