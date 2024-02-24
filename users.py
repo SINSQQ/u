@@ -681,8 +681,9 @@ async def main():
         result, country_emoji = await get_phone_info(phone_number)
         if not db.sismember(f'{bot.me.id}:{sudo_info.id}:country', country_emoji):
             db.sadd(f'{bot.me.id}:{sudo_info.id}:country', country_emoji)
-            if not db.sismember(f'{bot.me.id}:{sudo_info.id}:{country_emoji}', result):
-                db.sadd(f'{bot.me.id}:{sudo_info.id}:{country_emoji}', result)
+            db.set(f'{userbot.me.id}:country:{country_emoji}', result)
+            if not db.sismember(f'{bot.me.id}:{sudo_info.id}:{country_emoji}', userbot.me.id):
+                db.sadd(f'{bot.me.id}:{sudo_info.id}:{country_emoji}', userbot.me.id)
                 db.set(f'{userbot.me.id}:ph', userbot.me.phone_number)
         try:
             await userbot.send_log('⌯ Start collecting ✅')
