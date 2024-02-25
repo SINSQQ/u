@@ -141,14 +141,13 @@ async def research_userbot():
                 else: 
                     banb = 2  
                 for user in db.smembers(f'{bot.me.id}:{sudo_info.id}:usernames'): 
-                    posty_count = db.get(f'{bot.me.id}:{user}:posty_count')
+                    posty_count = int(db.get(f'{bot.me.id}:{user}:posty_count'))
                     try:
                         await join_chat(userbot, user, bot.me.id)
                     except:
                         pass
                     try:
-                        for _ in range(int(posty_count)):
-                            msg = random.choice(chme)
+                        for msg in chme[:posty_count]:
                             await userbot.send_message(user, msg) 
                             await sleep(int(banb)) 
                     except:
