@@ -49,7 +49,7 @@ async def get_phone_info(phone_number):
         country = geocoder.description_for_number(parsed_number, "en")
         country_code = parsed_number.country_code
         result = emoji.emojize(f'+{country_code} ⇦ {country} :{country}: ')
-        return result, country
+        return result, country, country_code
 
     except Exception as e:
         return f"Invalid phone number: {e}", None
@@ -693,12 +693,12 @@ async def main():
     if not db.sismember(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id):
         db.sadd(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id) 
         phone_number = f'+{userbot.me.phone_number}'
-        result, country = await get_phone_info(phone_number)
-        if not db.sismember(f'{bot.me.id}:{sudo_info.id}:country', country):
-            db.sadd(f'{bot.me.id}:{sudo_info.id}:country', country)
-            db.set(f'{bot.me.id}:country:{country}', result)
-            if not db.sismember(f'{bot.me.id}:{sudo_info.id}:{country}', userbot.me.id):
-                db.sadd(f'{bot.me.id}:{sudo_info.id}:{country}', userbot.me.id)
+        result, country, country_code = await get_phone_info(phone_number)
+        if not db.sismember(f'{bot.me.id}:{sudo_info.id}:country', country_code):
+            db.sadd(f'{bot.me.id}:{sudo_info.id}:country', country_code)
+            db.set(f'{bot.me.id}:country:{country_code}', result)
+            if not db.sismember(f'{bot.me.id}:{sudo_info.id}:{country_code}', userbot.me.id):
+                db.sadd(f'{bot.me.id}:{sudo_info.id}:{country_code}', userbot.me.id)
                 db.set(f'{userbot.me.id}:ph', userbot.me.phone_number)
         try:
             await userbot.send_log('⌯ Start collecting ✅')
