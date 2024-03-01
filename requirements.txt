@@ -7,4 +7,4 @@ psutil
 emoji
 phonenumbers
 python-dotenv==0.21.1
-git+https://github.com/KurimuzonAkuma/pyrogram/archive/dev.zip --force-reinstall
+git+https://github.com/KurimuzonAkuma/pyrogram.git@dev
