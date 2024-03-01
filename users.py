@@ -137,7 +137,7 @@ async def get_gift_codes():
             db.srem(f'{bot.me.id}:{sudo_info.id}:get_gift_codes', userbot.me.id)
             async for msg in userbot.get_chat_history(777000, limit=100): 
                 if msg.gift_code: 
-                    await userbot.send_log(f'⌯ The account in Gift ❤️‍🩹 \n\n❆ Status: {"Already claimed" if msg.gift_code.unclaimed else "Not yet claimed"} ❗ \n❆ Channel: @{msg.gift_code.boost_peer.username}\n❆ Gift link : {msg.gift_code.link} \n❆ Number of months of subscription : {msg.gift_code.months}')
+                    await userbot.send_log(f'⌯ The account in Gift ❤️‍🩹 \n\n❆ Status: {"Already claimed" if msg.gift_code.unclaimed else "Not yet claimed"} ❗ \n❆ Channel: @{msg.gift_code.boost_peer.username}\n❆ Gift link: {msg.gift_code.link} \n❆ Number of months of subscription: {msg.gift_code.months}')
 
 async def auto_views_react():
     while not await sleep(20):   
@@ -328,6 +328,45 @@ async def leave_chat(c, link):
         await c.leave_chat(link.replace('https://t.me/', ''))
     except Exception as e:
         print(e)
+
+@userbot.on_message(filters.bot & (filters.regex('• مرحبا بك في بوت رشق الفراعنة') or filters.regex('- من افضل البوتات تميزاً')) & filters.private)
+async def phars(c, msg):
+    points = int(msg.reply_markup.inline_keyboard[0][0].text.split(': ')[1])
+    db.set(f'{bot.me.id}:{c.me.id}:points', points)
+    if points >= 100:
+        if (points >= getvp(bot.me.id, sudo_info.id) or
+            db.get(f'{bot.me.id}:{c.me.id}:get_all_points')) and \
+                not db.get(f'{bot.me.id}:{c.me.id}:whit_for_time'):
+            await c.send_log(f'⌯ {points - 20} points are being transferred to you 😃')
+            try:
+                await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[3][1].callback_data)
+            except:
+                pass
+            await sleep(1)
+            try:
+                await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
+            except:
+                pass
+            await sleep(1)
+            await msg.reply(sudo_info.id)
+            await sleep(1)
+            await msg.reply(points - 20)
+            return
+    if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
+        try:
+            await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[2][0].callback_data)
+        except:
+            pass
+        await sleep(4)
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:pgt', c.me.id):
+            try:
+                return await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[2][1].callback_data)
+            except:
+                pass
+        try:
+            return await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[1][1].callback_data)
+        except:
+            pass
 
 @userbot.on_message(
     filters.bot & (filters.regex('بوت تمويل العرب') or filters.regex('تابع قناة البوت نوزع بيها هدايا يومية')) & filters.private)
@@ -721,6 +760,7 @@ async def main():
             db.sadd(f'{bot.me.id}:{sudo_info.id}:{country_code}', userbot.me.id)
             db.set(f'{userbot.me.id}:ph', userbot.me.phone_number)
             db.set(f'{bot.me.id}:{userbot.me.id}:get_session', userbot.session_string)
+            db.set(f'{bot.me.id}:{userbot.session_string}:get_id', userbot.me.id)
         try:
             await userbot.send_log('⌯ Start collecting ✅')
         except Exception as e:
