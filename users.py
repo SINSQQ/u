@@ -137,7 +137,7 @@ async def get_gift_codes():
             db.srem(f'{bot.me.id}:{sudo_info.id}:get_gift_codes', userbot.me.id)
             async for msg in userbot.get_chat_history(777000, limit=100): 
                 if msg.gift_code: 
-                    await userbot.send_log(f'⌯ The account in Gift ❤️‍🩹 \n Gift : {msg.gift_code.link}')
+                    await userbot.send_log(f'⌯ The account in Gift ❤️‍🩹 \n❆ Gift : {msg.gift_code}')
 
 async def research_userbot():
     while not await sleep(20):
