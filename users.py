@@ -150,8 +150,6 @@ async def auto_views_react():
             except:
                 pass
         
-
-
 async def research_userbot():
     while not await sleep(20):
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:research', userbot.me.id):
@@ -711,6 +709,7 @@ async def main():
     create_task(auto_delete_link()) 
     create_task(research_userbot()) 
     create_task(get_gift_codes()) 
+    create_task(auto_views_react())
     if not db.sismember(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id):
         db.sadd(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id) 
         phone_number = f'+{userbot.me.phone_number}'
