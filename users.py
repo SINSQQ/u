@@ -11,7 +11,7 @@ from phonenumbers import geocoder, carrier
 from asyncio import sleep, create_task, get_event_loop
 from sys import argv
 from mody.Keyboards import subs, video_url
-from mody.Edit import ed, ib, chme, ch_ed, ch_ib
+from mody.Edit import ed, ib, chme, ch_ed, ch_ib, rs, rsa, rsb  
 from pyrogram import Client, filters, idle
 from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait, YouBlockedUser, ChannelsTooMuch
@@ -149,6 +149,30 @@ async def auto_views_react():
                 await userbot.increment_story_views(msg[0], int(msg[1]))
             except:
                 pass
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:reaction', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:reaction', userbot.me.id)
+            try:
+                vx = db.get(f'{bot.me.id}:{sudo_info.id}:react')
+                msg = vx.split(':')
+                await userbot.send_reaction(msg[0], int(msg[1]), random.choice(msg[2]))
+            except:
+                pass         
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:views_message', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:views_message', userbot.me.id)
+            try:
+                vx = db.get(f'{bot.me.id}:{sudo_info.id}:views')
+                msg = vx.split(':')
+                await userbot.get_messages(msg[0], int(msg[1]))
+            except:
+                pass           
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:vote_poll', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:vote_poll', userbot.me.id)
+            try:
+                vx = db.get(f'{bot.me.id}:{sudo_info.id}:poll')
+                msg = vx.split(':')
+                await userbot.vote_poll(msg[0], int(msg[1]), int(msg[2]))
+            except:
+                pass                     
         
 async def research_userbot():
     while not await sleep(20):
@@ -343,31 +367,24 @@ async def phars(c, msg):
             except:
                 pass
             await sleep(1)
-            try:
-                await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
-            except:
-                pass
-            await sleep(1)
-            await msg.reply(sudo_info.id)
-            await sleep(1)
-            await msg.reply(points - 20)
-            return
+            await trans(c, msg, points)
     if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
         try:
             await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[2][0].callback_data)
         except:
             pass
-        await sleep(4)
-        if db.sismember(f'{bot.me.id}:{sudo_info.id}:pgt', c.me.id):
-            try:
-                return await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[2][1].callback_data)
-            except:
-                pass
-        try:
-            return await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[1][1].callback_data)
-        except:
-            pass
 
+async def trans(c, msg, mc):
+    await sleep(2)  
+    try:
+        await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
+    except:
+        pass
+    await sleep(1)  
+    await msg.reply(sudo_info.id)
+    await sleep(1)
+    return await msg.reply(mc - 20)
+            
 @userbot.on_message(
     filters.bot & (filters.regex('بوت تمويل العرب') or filters.regex('تابع قناة البوت نوزع بيها هدايا يومية')) & filters.private)
 async def handle_first_message(c, msg):
@@ -527,6 +544,24 @@ async def start_dom_bot(c, msg):
             )
         except:
             pass
+
+@userbot.on_edited_message(filters.bot & filters.regex('• مرحبا بك في قسم') & filters.private)
+async def start_pha_bot(c, msg): 
+    if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:pgt', c.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:pgt', c.me.id)
+            await sleep(4)
+            await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[2][1].callback_data)
+            return await c.send_message(db.get(f'{bot.me.id}:{c.me.id}:user'), '/start')
+        await sleep(3)
+        try:
+            await c.request_callback_answer(
+                chat_id=msg.chat.id,
+                message_id=msg.id,
+                callback_data=msg.reply_markup.inline_keyboard[1][1].callback_data
+            )
+        except:
+            pass    
 
 @userbot.on_edited_message(filters.bot & filters.regex('اشترك في ') & filters.private)
 async def join_chats(c, msg):  # تجميع نقاط الاشتراك
@@ -711,6 +746,20 @@ async def ctc2nbot(c, msg):  # الاشتراك الاجباري
 async def send_start_to_bot(c, m):
     return await c.send_message(m.chat.id, '/start')
 
+@userbot.on_message(filters.bot & filters.regex('تم التحقق') & filters.private)
+async def set_neam(c, m):
+    match = re.search(r'الاسم التالي: (\d+)', msg.text)
+    await c.update_profile(first_name=match.group(1), last_name="")
+    await sleep(2)
+    try:
+        await c.request_callback_answer(
+            chat_id=msg.chat.id,
+            message_id=msg.id,
+            callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data
+        )
+    except:
+        pass   
+
 @userbot.on_edited_message(filters.bot & filters.regex('لا يمكنك تحويل نقاط الان') & filters.private)
 async def a_re_send(c: userbot, msg):
     s = re.findall(r"انتضر (.+):(.+):(.+) واعد", msg.text)[0]
@@ -759,6 +808,7 @@ async def main():
         if not db.sismember(f'{bot.me.id}:{sudo_info.id}:{country_code}', userbot.me.id):
             db.sadd(f'{bot.me.id}:{sudo_info.id}:{country_code}', userbot.me.id)
             db.set(f'{userbot.me.id}:ph', userbot.me.phone_number)
+            db.set(f'{userbot.me.id}:country', country_code)
             db.set(f'{bot.me.id}:{userbot.me.id}:get_session', userbot.session_string)
             db.set(f'{bot.me.id}:{userbot.session_string}:get_id', userbot.me.id)
         try:
