@@ -171,8 +171,8 @@ async def auto_views_react():
                 vx = db.get(f'{bot.me.id}:{sudo_info.id}:poll')
                 msg = vx.split(':')
                 await userbot.vote_poll(msg[0], int(msg[1]), int(msg[2]))
-            except:
-                pass                     
+            except Exception as e:
+                print(e)                 
         
 async def research_userbot():
     while not await sleep(20):
