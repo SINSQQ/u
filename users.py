@@ -159,7 +159,7 @@ async def auto_views_react():
                 vx = db.get(f'{bot.me.id}:{sudo_info.id}:react')
                 msg = vx.split(':')
                 await userbot.send_reaction(chat_id="U_D_8",story_id=89,emoji="🔥")
-                await userbot.send_reaction(msg[0], int(msg[1]), random.choice(msg[2]))
+                await userbot.send_reaction(msg[0], int(msg[1]), random.choice(f"{msg[2]}"))
             except Exception as e:
                 print(e)        
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:views_message', userbot.me.id):
@@ -167,7 +167,7 @@ async def auto_views_react():
             try:
                 vx = db.get(f'{bot.me.id}:{sudo_info.id}:views')
                 msg = vx.split(':')
-                await userbot.get_messages(msg[0], int(msg[1]))
+                await userbot.message_views(msg[0], int(msg[1]))
             except:
                 pass           
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:vote_poll', userbot.me.id):
