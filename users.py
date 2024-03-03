@@ -158,9 +158,10 @@ async def auto_views_react():
             try:
                 vx = db.get(f'{bot.me.id}:{sudo_info.id}:react')
                 msg = vx.split(':')
+                await userbot.send_reaction(chat_id="U_D_8",story_id=89,emoji="🔥")
                 await userbot.send_reaction(msg[0], int(msg[1]), random.choice(msg[2]))
-            except:
-                pass         
+            except Exception as e:
+                print(e)        
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:views_message', userbot.me.id):
             db.srem(f'{bot.me.id}:{sudo_info.id}:views_message', userbot.me.id)
             try:
@@ -175,8 +176,8 @@ async def auto_views_react():
                 vx = db.get(f'{bot.me.id}:{sudo_info.id}:poll')
                 msg = vx.split(':')
                 await userbot.vote_poll(msg[0], int(msg[1]), int(msg[2]))
-            except Exception as e:
-                print(e)                 
+            except:
+                pass                 
         
 async def research_userbot():
     while not await sleep(20):
@@ -377,7 +378,7 @@ async def phars(c, msg):
         if (points >= getvp(bot.me.id, sudo_info.id) or
             db.get(f'{bot.me.id}:{c.me.id}:get_all_points')) and \
                 not db.get(f'{bot.me.id}:{c.me.id}:whit_for_time'):
-            await c.send_log(f'⌯ {points - 20} points are being transferred to you 😃')
+            await c.send_log(f'⌯ {points - 270} points are being transferred to you 😃')
             try:
                 await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[3][1].callback_data)
             except:
@@ -385,7 +386,7 @@ async def phars(c, msg):
             await sleep(5)
             await msg.reply(await print_id())
             await sleep(1)
-            return await msg.reply(points - 20)
+            return await msg.reply(points - 270)
     if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
         try:
             await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[2][0].callback_data)
@@ -503,7 +504,6 @@ async def start_dm_bot(c, msg):
         match = re.search(r'👥] نقاطك : (\d+)', msg.text)
         points = int(match.group(1))
         db.set(f'{bot.me.id}:{c.me.id}:points', points)
-        pointsid = f'{sudo_id}'
         if points >= 100:
             if (points >= getvp(bot.me.id, sudo_info.id) or
                 db.get(f'{bot.me.id}:{c.me.id}:get_all_points')) and \
@@ -520,7 +520,7 @@ async def start_dm_bot(c, msg):
                 except:
                     pass
                 await sleep(1)
-                await msg.reply(pointsid)
+                await msg.reply(await print_id())
                 await sleep(1)
                 await msg.reply(points - 30)
                 return
