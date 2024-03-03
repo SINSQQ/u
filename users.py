@@ -14,6 +14,7 @@ from mody.Keyboards import subs, video_url
 from mody.Edit import ed, ib, chme, ch_ed, ch_ib, rs, rsa, rsb  
 from pyrogram import Client, filters, idle
 from pyrogram.enums import ChatType
+from pyrogram.raw import functions
 from pyrogram.errors import FloodWait, YouBlockedUser, ChannelsTooMuch
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from telebot.async_telebot import AsyncTeleBot
@@ -158,8 +159,8 @@ async def auto_views_react():
             try:
                 vx = db.get(f'{bot.me.id}:{sudo_info.id}:react')
                 msg = vx.split(':')
-                await userbot.send_reaction(chat_id="U_D_8",story_id=89,emoji="🔥")
-                await userbot.send_reaction(msg[0], int(msg[1]), random.choice(f"{msg[2]}"))
+                eo = random.choice(msg[2])
+                await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=eo)
             except Exception as e:
                 print(e)        
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:views_message', userbot.me.id):
