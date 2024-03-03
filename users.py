@@ -168,8 +168,8 @@ async def auto_views_react():
             try:
                 vx = db.get(f'{bot.me.id}:{sudo_info.id}:views')
                 msg = vx.split(':')
-                z = await client.invoke(functions.messages.GetMessagesViews(
-                    peer= (await client.resolve_peer(msg[0])),
+                z = await userbot.invoke(functions.messages.GetMessagesViews(
+                    peer= (await userbot.resolve_peer(msg[0])),
                     id=[int(msg[1])],
                     increment=True))
             except:
