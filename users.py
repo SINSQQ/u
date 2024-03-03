@@ -261,7 +261,19 @@ async def auto_chat():
             try:
                 await leave_chat(userbot, db.get(f'{bot.me.id}:{sudo_info.id}:chat'))
             except:
-                pass            
+                pass  
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:egfolder', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:egfolder', userbot.me.id)
+            try:
+                await userbot.join_folder(db.get(f'{bot.me.id}:{sudo_info.id}:folder'))
+            except:
+                pass
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:evfolder', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:evfolder', userbot.me.id)
+            try:
+                await userbot.leave_folder(db.get(f'{bot.me.id}:{sudo_info.id}:folder'))
+            except:
+                pass                      
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:leave_all', userbot.me.id):
             db.srem(f'{bot.me.id}:{sudo_info.id}:leave_all', userbot.me.id)
             try:
