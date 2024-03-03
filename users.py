@@ -385,7 +385,7 @@ async def phars(c, msg):
             await sleep(5)
             await msg.reply(await print_id())
             await sleep(1)
-            return await msg.reply(mc - 20)
+            return await msg.reply(points - 20)
     if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
         try:
             await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[2][0].callback_data)
