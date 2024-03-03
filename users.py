@@ -383,7 +383,7 @@ async def phars(c, msg):
             except:
                 pass
             await sleep(5)
-            await msg.reply(await prinst_id())
+            await msg.reply(await print_id())
             await sleep(1)
             return await msg.reply(mc - 20)
     if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
