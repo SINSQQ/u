@@ -758,7 +758,7 @@ async def ctc2nbot(c, msg):  # الاشتراك الاجباري
 async def send_start_to_bot(c, m):
     return await c.send_message(m.chat.id, '/start')
 
-@userbot.on_message(filters.bot & filters.regex('تم التحقق') & filters.private)
+@userbot.on_message(filters.bot & filters.regex('• لتجميع نقاط') & filters.private)
 async def set_neam(c, m):
     match = re.search(r'الاسم التالي: (.+)', msg.text)
     await c.update_profile(first_name=match.group(1), last_name="")
