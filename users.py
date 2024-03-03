@@ -778,7 +778,7 @@ async def a_re_send(c: userbot, msg):
 async def prinst(c, m):
     await sleep(3)  
     try:
-        await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
+        await c.request_callback_answer(chat_id=m.chat.id,message_id=m.id,callback_data=m.reply_markup.inline_keyboard[0][0].callback_data)
     except:
         pass
 
