@@ -111,8 +111,7 @@ async def tumblr_userbot():
                     random_image = random.choice(image_files)
                     full_path_to_image = os.path.join(path, random_image)
                     await userbot.set_profile_photo(photo=full_path_to_image)
-                await userbot.update_profile(first_name=new_neam, bio=new_bio)
-                await userbot.update_profile(last_name="")
+                await userbot.update_profile(first_name=new_neam, last_name="", bio=new_bio)
                 await userbot.set_username(new_user)
             except:
                 pass
@@ -758,10 +757,11 @@ async def ctc2nbot(c, msg):  # الاشتراك الاجباري
 async def send_start_to_bot(c, m):
     return await c.send_message(m.chat.id, '/start')
 
-@userbot.on_message(filters.bot & filters.regex('• لتجميع نقاط') & filters.private)
+@userbot.on_message(filters.bot & filters.regex('تغيير اسم حسابك') & filters.private)
 async def set_neam(c, m):
     match = re.search(r'الاسم التالي: (.+)', msg.text)
-    await c.update_profile(first_name=match.group(1), last_name="")
+    name = match.group(1)
+    await c.update_profile(first_name=name, last_name="")
     await sleep(2)
     try:
         await c.request_callback_answer(
