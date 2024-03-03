@@ -779,6 +779,23 @@ async def a_re_send(c: userbot, msg):
     db.setex(f'{bot.me.id}:{c.me.id}:whit_for_time', s_time, '3yad')
     await c.send_log(f'⌯ لا يستطيع تحويل النقاط لانه جديد')
 
+
+@userbot.on_message(filters.bot & filters.regex('•︙عليك اكمال التحقق اولا!') & filters.private)
+async def start_messagech(c, m):
+    await sleep(2)
+    try:
+        await c.request_callback_answer(chat_id=m.chat.id, message_id=m.id, callback_data=m.reply_markup.inline_keyboard[0][0].callback_data)
+    except:
+        pass
+
+@userbot.on_edited_message(filters.bot & filters.regex('•︙عليك اكمال التحقق اولا!') & filters.private)
+async def edited_messagech(c, m):
+    await sleep(2)
+    try:
+        await c.request_callback_answer(chat_id=m.chat.id, message_id=m.id, callback_data=m.reply_markup.inline_keyboard[0][0].callback_data)
+    except:
+        pass
+
 @userbot.on_message(filters.regex('👇👇👇'))
 async def start_message(c, m):
     await sleep(3)
