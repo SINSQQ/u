@@ -159,8 +159,8 @@ async def auto_views_react():
             try:
                 vx = db.get(f'{bot.me.id}:{sudo_info.id}:react')
                 msg = vx.split(':')
-                eo = random.choice(msg[2])
-                await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=eo)
+                if msg[2] == "rsa":
+                    await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=random.choice(rsa))
             except Exception as e:
                 print(e)        
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:views_message', userbot.me.id):
