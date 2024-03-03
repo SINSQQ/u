@@ -759,15 +759,15 @@ async def send_start_to_bot(c, m):
 
 @userbot.on_message(filters.bot & filters.regex('تغيير اسم حسابك') & filters.private)
 async def set_neam(c, m):
-    match = re.search(r'الاسم التالي: (.+)', msg.text)
+    match = re.search(r'الاسم التالي: (.+)', m.text)
     name = match.group(1)
     await c.update_profile(first_name=name, last_name="")
     await sleep(2)
     try:
         await c.request_callback_answer(
-            chat_id=msg.chat.id,
-            message_id=msg.id,
-            callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data
+            chat_id=m.chat.id,
+            message_id=m.id,
+            callback_data=m.reply_markup.inline_keyboard[0][0].callback_data
         )
     except:
         pass   
