@@ -54,6 +54,11 @@ async def get_phone_info(phone_number):
     except Exception as e:
         return f"Invalid phone number: {e}", None
 
+async def print_id():
+    prinst_id = f'{db.get(f"{bot.me.id}:{sudo_info.id}:id")}' if db.get(f'{bot.me.id}:{sudo_info.id}:id') else f'{sudo_info.id}'
+    return prinst_id
+
+prinst_id = await prinst_id()
 
 bot.me, sudo_info = get_event_loop().run_until_complete(getInfo())
 
@@ -377,25 +382,16 @@ async def phars(c, msg):
                 await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[3][1].callback_data)
             except:
                 pass
+            await sleep(5)
+            await msg.reply(prinst_id)
             await sleep(1)
-            await trans(c, msg, points)
+            return await msg.reply(mc - 20)
     if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
         try:
             await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[2][0].callback_data)
         except:
             pass
-
-async def trans(c, msg, mc):
-    await sleep(2)  
-    try:
-        await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
-    except:
-        pass
-    await sleep(1)  
-    await msg.reply(sudo_info.id)
-    await sleep(1)
-    return await msg.reply(mc - 20)
-            
+      
 @userbot.on_message(
     filters.bot & (filters.regex('بوت تمويل العرب') or filters.regex('تابع قناة البوت نوزع بيها هدايا يومية')) & filters.private)
 async def handle_first_message(c, msg):
@@ -778,6 +774,13 @@ async def a_re_send(c: userbot, msg):
     db.setex(f'{bot.me.id}:{c.me.id}:whit_for_time', s_time, '3yad')
     await c.send_log(f'⌯ لا يستطيع تحويل النقاط لانه جديد')
 
+@userbot.on_edited_message(filters.bot & filters.regex('• ♻️] تحويل نقاط 〽️') & filters.private)
+async def prinst(c, m):
+    await sleep(3)  
+    try:
+        await c.request_callback_answer(chat_id=msg.chat.id,message_id=msg.id,callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data)
+    except:
+        pass
 
 @userbot.on_message(filters.bot & filters.regex('•︙عليك اكمال التحقق اولا!') & filters.private)
 async def start_messagech(c, m):
