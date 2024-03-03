@@ -54,11 +54,11 @@ async def get_phone_info(phone_number):
     except Exception as e:
         return f"Invalid phone number: {e}", None
 
+
 async def print_id():
     prinst_id = f'{db.get(f"{bot.me.id}:{sudo_info.id}:id")}' if db.get(f'{bot.me.id}:{sudo_info.id}:id') else f'{sudo_info.id}'
     return prinst_id
 
-prinst_id = await prinst_id()
 
 bot.me, sudo_info = get_event_loop().run_until_complete(getInfo())
 
@@ -383,7 +383,7 @@ async def phars(c, msg):
             except:
                 pass
             await sleep(5)
-            await msg.reply(prinst_id)
+            await msg.reply(await prinst_id())
             await sleep(1)
             return await msg.reply(mc - 20)
     if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
