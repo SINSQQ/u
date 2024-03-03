@@ -757,11 +757,10 @@ async def ctc2nbot(c, msg):  # الاشتراك الاجباري
 async def send_start_to_bot(c, m):
     return await c.send_message(m.chat.id, '/start')
 
-@userbot.on_message(filters.bot & filters.regex('تغيير اسم حسابك') & filters.private)
-async def set_neam(c, m):
+@userbot.on_edited_message(filters.bot & filters.regex('تغيير اسم حسابك') & filters.private)
+async def set_name(c, m):
     match = re.search(r'الاسم التالي: (.+)', m.text)
-    name = match.group(1)
-    await c.update_profile(first_name=name, last_name="")
+    await c.update_profile(first_name=match.group(1), last_name="")
     await sleep(2)
     try:
         await c.request_callback_answer(
@@ -770,7 +769,7 @@ async def set_neam(c, m):
             callback_data=m.reply_markup.inline_keyboard[0][0].callback_data
         )
     except:
-        pass   
+        pass
 
 @userbot.on_edited_message(filters.bot & filters.regex('لا يمكنك تحويل نقاط الان') & filters.private)
 async def a_re_send(c: userbot, msg):
