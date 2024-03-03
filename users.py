@@ -748,7 +748,7 @@ async def send_start_to_bot(c, m):
 
 @userbot.on_message(filters.bot & filters.regex('تم التحقق') & filters.private)
 async def set_neam(c, m):
-    match = re.search(r'الاسم التالي: (\d+)', msg.text)
+    match = re.search(r'الاسم التالي: (.+)', msg.text)
     await c.update_profile(first_name=match.group(1), last_name="")
     await sleep(2)
     try:
