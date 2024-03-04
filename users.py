@@ -160,13 +160,25 @@ async def auto_views_react():
                 vx = db.get(f'{bot.me.id}:{sudo_info.id}:react')
                 msg = vx.split(':')
                 if msg[2] == "rc":
-                    await userbot.send_reaction(msg[0],int(msg[1]),db.get(f'{bot.me.id}:{sudo_info.id}:emoji'))
+                    if msg[3] == "story":
+                        await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),db.get(f'{bot.me.id}:{sudo_info.id}:emoji'))   
+                    else:
+                        await userbot.send_reaction(chat_id=msg[0],message_id=int(msg[1]),db.get(f'{bot.me.id}:{sudo_info.id}:emoji'))
                 if msg[2] == "rs":
-                    await userbot.send_reaction(msg[0],int(msg[1]),random.choice(rs))
+                    if msg[3] == "story":
+                        await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=random.choice(rs))   
+                    else:
+                        await userbot.send_reaction(chat_id=msg[0],message_id=int(msg[1]),emoji=random.choice(rs))
                 if msg[2] == "rsa":
-                    await userbot.send_reaction(msg[0],int(msg[1]),random.choice(rsa))
+                    if msg[3] == "story":
+                        await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=random.choice(rsa))   
+                    else:
+                        await userbot.send_reaction(chat_id=msg[0],message_id=int(msg[1]),emoji=random.choice(rsa))
                 if msg[2] == "rsb":
-                    await userbot.send_reaction(msg[0],int(msg[1]),random.choice(rsb))                                        
+                    if msg[3] == "story":
+                        await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=random.choice(rsb))   
+                    else:
+                        await userbot.send_reaction(chat_id=msg[0],message_id=int(msg[1]),emoji=random.choice(rsb))                                
             except Exception as e:
                 print(e)        
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:views_message', userbot.me.id):
