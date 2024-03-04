@@ -161,9 +161,9 @@ async def auto_views_react():
                 msg = vx.split(':')
                 if msg[2] == "rc":
                     if msg[3] == "story":
-                        await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),db.get(f'{bot.me.id}:{sudo_info.id}:emoji'))   
+                        await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=db.get(f'{bot.me.id}:{sudo_info.id}:emoji'))   
                     else:
-                        await userbot.send_reaction(chat_id=msg[0],message_id=int(msg[1]),db.get(f'{bot.me.id}:{sudo_info.id}:emoji'))
+                        await userbot.send_reaction(chat_id=msg[0],message_id=int(msg[1]),emoji=db.get(f'{bot.me.id}:{sudo_info.id}:emoji'))
                 if msg[2] == "rs":
                     if msg[3] == "story":
                         await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=random.choice(rs))   
