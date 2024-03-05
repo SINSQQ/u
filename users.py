@@ -162,22 +162,22 @@ async def auto_views_react():
                 if msg[2] == "rc":
                     if msg[3] == "story":
                         await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=db.get(f'{bot.me.id}:{sudo_info.id}:emoji'))   
-                    else:
+                    if msg[3] == "message":
                         await userbot.send_reaction(chat_id=msg[0],message_id=int(msg[1]),emoji=db.get(f'{bot.me.id}:{sudo_info.id}:emoji'))
                 if msg[2] == "rs":
                     if msg[3] == "story":
                         await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=random.choice(rs))   
-                    else:
+                    if msg[3] == "message":
                         await userbot.send_reaction(chat_id=msg[0],message_id=int(msg[1]),emoji=random.choice(rs))
                 if msg[2] == "rsa":
                     if msg[3] == "story":
                         await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=random.choice(rsa))   
-                    else:
+                    if msg[3] == "message":
                         await userbot.send_reaction(chat_id=msg[0],message_id=int(msg[1]),emoji=random.choice(rsa))
                 if msg[2] == "rsb":
                     if msg[3] == "story":
                         await userbot.send_reaction(chat_id=msg[0],story_id=int(msg[1]),emoji=random.choice(rsb))   
-                    else:
+                    if msg[3] == "message":
                         await userbot.send_reaction(chat_id=msg[0],message_id=int(msg[1]),emoji=random.choice(rsb))                                
             except Exception as e:
                 print(e)        
