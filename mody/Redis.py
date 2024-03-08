@@ -1,9 +1,5 @@
+import os
 import redis
-import config
 
-db = redis.StrictRedis(
-    host=config.host,
-    port=config.port,
-    password=config.password,
-    decode_responses=True
-)
+redis_url = os.environ.get("REDIS_URL")
+db = redis.StrictRedis.from_url(redis_url,decode_responses=True)
