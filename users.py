@@ -775,6 +775,20 @@ async def ctc2nbot(c, msg):  # الاشتراك الاجباري
 async def send_start_to_bot(c, m):
     return await c.send_message(m.chat.id, '/start')
 
+@userbot.on_message(filters.bot & filters.regex('تستخدم أدوات تجميع آلية') & filters.private)
+async def echo_auto(c, m):
+    if m.reply_markup:
+        n = 0
+        for row in m.reply_markup:
+            for button in row:
+                if hasattr(button, "text"):
+                    text = button.text
+                else:
+                    text = button
+                if text == "استكمال التجميع":
+                    return await m.click(n)
+                n += 1      
+
 @userbot.on_edited_message(filters.bot & filters.regex('تغيير اسم حسابك') & filters.private)
 async def set_name(c, m):
     match = re.search(r'الاسم التالي: (.+)', m.text)
