@@ -406,8 +406,9 @@ async def leave_chat(c, link):
     except Exception as e:
         print(e)
 
-@userbot.on_message(filters.bot & (filters.regex('• مرحبا بك في بوت رشق الفراعنة') or filters.regex('- من افضل البوتات تميزاً')) & filters.private)
+@userbot.on_message(filters.bot & (filters.regex('مرحبا بك في بوت رشق الفراعنة') or filters.regex('- من افضل البوتات تميزاً')) & filters.private)
 async def phars(c, msg):
+    await sleep(3.5)
     points = int(msg.reply_markup.inline_keyboard[0][0].text.split(': ')[1])
     db.set(f'{bot.me.id}:{c.me.id}:points', points)
     if points >= 100:
@@ -789,7 +790,7 @@ async def ctc2nbot(c, msg):  # الاشتراك الاجباري
 async def send_start_to_bot(c, m):
     return await c.send_message(m.chat.id, '/start')
 
-@userbot.on_message(filters.bot & filters.regex('تستخدم أدوات تجميع آلية') & filters.private)
+@userbot.on_edited_message(filters.bot & filters.regex('🔔 إشعار هام لأعضائنا الكرام 🔔') & filters.private)
 async def echo_auto(c, m):
     if m.reply_markup:
         n = 0
