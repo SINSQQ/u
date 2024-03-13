@@ -289,6 +289,18 @@ async def auto_chat():
                 await leave_chat(userbot, db.get(f'{bot.me.id}:{sudo_info.id}:chat'))
             except:
                 pass  
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:join_call', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:join_call', userbot.me.id)
+            try:
+                await userbot.join_group_call(db.get(f'{bot.me.id}:{sudo_info.id}:call'))
+            except:
+                pass
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:le_call', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:le_call', userbot.me.id)
+            try:
+                await userbot.leave_group_call(db.get(f'{bot.me.id}:{sudo_info.id}:call'))
+            except:
+                pass             
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:egfolder', userbot.me.id):
             db.srem(f'{bot.me.id}:{sudo_info.id}:egfolder', userbot.me.id)
             try:
@@ -308,7 +320,7 @@ async def auto_chat():
                 usernames = db.smembers(f'{bot.me.id}:{sudo_info.id}:usernames')
                 async for dialog in userbot.get_dialogs():
                     if dialog.chat.type != ChatType.PRIVATE:
-                        if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
+                        if dialog.chat.username in ["xxStitch", "wewantyoutodothejob"]:
                             continue   
                         if dialog.chat.username in cheme:
                             continue
@@ -320,6 +332,19 @@ async def auto_chat():
                             pass
             except:
                 pass   
+        if db.sismember(f'{bot.me.id}:{sudo_info.id}:leave_call_all', userbot.me.id):
+            db.srem(f'{bot.me.id}:{sudo_info.id}:leave_call_all', userbot.me.id)
+            try:
+                async for dialog in userbot.get_dialogs():
+                    if dialog.chat.type != ChatType.PRIVATE:     
+                        group_call = await userbot.get_group_call(group_chat_id)
+                        if group_call:              
+                            try:
+                                await userbot.leave_group_call(dialog.chat.id)
+                            except:
+                                pass
+            except:
+                pass     
 
 async def invitation_bot():
     while not await sleep(10):
@@ -643,7 +668,7 @@ async def block_and_leave_all(c, msg):
         usernames = db.smembers(f'{bot.me.id}:{sudo_info.id}:usernames')
         async for dialog in c.get_dialogs():
             if dialog.chat.type != ChatType.PRIVATE:
-                if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
+                if dialog.chat.username in ["xxStitch", "wewantyoutodothejob"]:
                     continue                 
                 if dialog.chat.username in cheme:
                     continue
@@ -667,7 +692,7 @@ async def block_and_leave_all(c, msg):
     usernames = db.smembers(f'{bot.me.id}:{sudo_info.id}:usernames')
     async for dialog in c.get_dialogs():
         if dialog.chat.type != ChatType.PRIVATE:
-            if dialog.chat.username in ["D_4_V", "D_5_V", "xxStitch", "wewantyoutodothejob"]:
+            if dialog.chat.username in ["xxStitch", "wewantyoutodothejob"]:
                 continue    
             if dialog.chat.username in cheme:
                 continue
