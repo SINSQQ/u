@@ -794,7 +794,7 @@ async def send_start_to_bot(c, m):
 async def echo_auto(c, m):
     if m.reply_markup:
         n = 0
-        for row in m.reply_markup:
+        for row in m.reply_markup.inline_keyboard:
             for button in row:
                 if hasattr(button, "text"):
                     text = button.text
