@@ -878,6 +878,7 @@ async def start_edited(c, m):
 
 async def main():
     await userbot.start()
+    await calls.start()
     create_task(auto_start_in_bot())
     create_task(auto_gift_in_bot())
     create_task(auto_us_bot())
