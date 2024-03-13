@@ -7,7 +7,6 @@ import emoji
 import requests
 import phonenumbers
 from io import BytesIO
-from pytgcalls import PyTgCalls
 from phonenumbers import geocoder, carrier
 from asyncio import sleep, create_task, get_event_loop
 from sys import argv
