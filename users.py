@@ -72,7 +72,7 @@ getvp = lambda bot_id, owner_id: 1000 \
     if not db.get(f'{bot_id}:{owner_id}:points') else int(db.get(f'{bot_id}:{owner_id}:points'))
 
 async def auto_delete_link():
-    while not await sleep(36000):
+    while not await sleep(1800):
         for msg in db.smembers(f'{bot.me.id}:{userbot.me.id}:click'):
             msg = msg.split(':')
             await userbot.request_callback_answer(
