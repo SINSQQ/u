@@ -15,6 +15,7 @@ from mody.Edit import ed, ib, chme, ch_ed, ch_ib, rs, rsa, rsb
 from pyrogram import Client, filters, idle
 from pyrogram.enums import ChatType
 from pyrogram.raw import functions
+from pyrogram.raw.functions.phone import JoinGroupCall
 from pyrogram.errors import FloodWait, YouBlockedUser, ChannelsTooMuch
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from telebot.async_telebot import AsyncTeleBot
