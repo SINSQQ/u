@@ -3,6 +3,7 @@ redis
 psutil
 aiohttp
 TgCrypto
+pytgcalls
 phonenumbers
 pyro-listener
 pyTelegramBotAPI

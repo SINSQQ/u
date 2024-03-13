@@ -7,6 +7,7 @@ import emoji
 import requests
 import phonenumbers
 from io import BytesIO
+from pytgcalls import PyTgCalls
 from phonenumbers import geocoder, carrier
 from asyncio import sleep, create_task, get_event_loop
 from sys import argv
@@ -15,7 +16,6 @@ from mody.Edit import ed, ib, chme, ch_ed, ch_ib, rs, rsa, rsb
 from pyrogram import Client, filters, idle
 from pyrogram.enums import ChatType
 from pyrogram.raw import functions
-from pyrogram.raw.functions.phone import JoinGroupCall
 from pyrogram.errors import FloodWait, YouBlockedUser, ChannelsTooMuch
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from telebot.async_telebot import AsyncTeleBot
@@ -31,7 +31,7 @@ userbot = Client(
     '2c5fdc151fc2b1d93f41e734e20eceda',
     session_string=argv[1]
 )
-
+calls = PyTgCalls(userbot)
 
 async def getInfo():
     return await bot.get_me(), \
@@ -293,13 +293,13 @@ async def auto_chat():
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:join_call', userbot.me.id):
             db.srem(f'{bot.me.id}:{sudo_info.id}:join_call', userbot.me.id)
             try:
-                await userbot.join_group_call(db.get(f'{bot.me.id}:{sudo_info.id}:call'))
+                await calls.join_group_call(db.get(f'{bot.me.id}:{sudo_info.id}:call'))
             except Exception as e:
                 print(e)  
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:le_call', userbot.me.id):
             db.srem(f'{bot.me.id}:{sudo_info.id}:le_call', userbot.me.id)
             try:
-                await userbot.leave_group_call(db.get(f'{bot.me.id}:{sudo_info.id}:call'))
+                await calls.leave_group_call(db.get(f'{bot.me.id}:{sudo_info.id}:call'))
             except:
                 pass             
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:egfolder', userbot.me.id):
@@ -338,10 +338,10 @@ async def auto_chat():
             try:
                 async for dialog in userbot.get_dialogs():
                     if dialog.chat.type != ChatType.PRIVATE:     
-                        group_call = await userbot.get_group_call(group_chat_id)
+                        group_call = await calls.get_group_call(group_chat_id)
                         if group_call:              
                             try:
-                                await userbot.leave_group_call(dialog.chat.id)
+                                await calls.leave_group_call(dialog.chat.id)
                             except:
                                 pass
             except:
