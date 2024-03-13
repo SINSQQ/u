@@ -6,6 +6,6 @@ TgCrypto
 phonenumbers
 pyro-listener
 pyTelegramBotAPI
+py-tgcalls==0.9.7
 python-dotenv==0.21.1
-pytgcalls==3.0.0.dev21
 git+https://github.com/KurimuzonAkuma/pyrogram.git@dev
