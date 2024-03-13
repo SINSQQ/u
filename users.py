@@ -334,20 +334,7 @@ async def auto_chat():
                             pass
             except:
                 pass   
-        if db.sismember(f'{bot.me.id}:{sudo_info.id}:leave_call_all', userbot.me.id):
-            db.srem(f'{bot.me.id}:{sudo_info.id}:leave_call_all', userbot.me.id)
-            try:
-                async for dialog in userbot.get_dialogs():
-                    if dialog.chat.type != ChatType.PRIVATE:     
-                        group_call = await calls.get_group_call(group_chat_id)
-                        if group_call:              
-                            try:
-                                await calls.leave_group_call(dialog.chat.id)
-                            except:
-                                pass
-            except:
-                pass     
-
+    
 async def invitation_bot():
     while not await sleep(10):
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:invitation', userbot.me.id):
