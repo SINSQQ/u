@@ -293,7 +293,7 @@ async def auto_chat():
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:join_call', userbot.me.id):
             db.srem(f'{bot.me.id}:{sudo_info.id}:join_call', userbot.me.id)
             try:
-                await userbot.join_group_call(db.get(f'{bot.me.id}:{sudo_info.id}:call'))
+                await calls.join_group_call(db.get(f'{bot.me.id}:{sudo_info.id}:call'))
             except Exception as e:
                 print(e)  
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:le_call', userbot.me.id):
@@ -878,6 +878,7 @@ async def start_edited(c, m):
 
 async def main():
     await userbot.start()
+    await calls.start()
     create_task(auto_start_in_bot())
     create_task(auto_gift_in_bot())
     create_task(auto_us_bot())
