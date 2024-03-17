@@ -72,16 +72,6 @@ userbot.send_log = lambda text: \
 getvp = lambda bot_id, owner_id: 1000 \
     if not db.get(f'{bot_id}:{owner_id}:points') else int(db.get(f'{bot_id}:{owner_id}:points'))
 
-async def auto_delete_link():
-    while not await sleep(1800):
-        for msg in db.smembers(f'{bot.me.id}:{userbot.me.id}:click'):
-            msg = msg.split(':')
-            await userbot.request_callback_answer(
-                chat_id=msg[0],
-                message_id=msg[1],
-                callback_data=msg[2]
-            )
-
 async def delete_userbot():
     while not await sleep(5):
         if db.sismember(f'{bot.me.id}:{sudo_info.id}:delete_userbot', userbot.me.id):
@@ -878,7 +868,6 @@ async def main():
     create_task(click_button_bot())
     create_task(tumblr_userbot())
     create_task(delete_userbot())
-    create_task(auto_delete_link()) 
     create_task(research_userbot()) 
     create_task(get_gift_codes()) 
     create_task(auto_views_react())
