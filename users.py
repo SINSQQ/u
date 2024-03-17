@@ -144,7 +144,7 @@ async def get_gift_codes():
             db.srem(f'{bot.me.id}:{sudo_info.id}:get_gift_codes', userbot.me.id)
             async for msg in userbot.get_chat_history(777000, limit=100): 
                 if msg.gift_code: 
-                    await userbot.send_log(f'⌯ The account in Gift ❤️‍🩹 \n\n❆ Status: {"Already claimed" if msg.gift_code.unclaimed else "Not yet claimed"} ❗ \n❆ Channel: @{msg.gift_code.boost_peer.username}\n❆ Gift link: {msg.gift_code.link} \n❆ Number of months of subscription: {msg.gift_code.months}')
+                    await userbot.send_log(f'⌯ The account in Gift ❤️‍🩹 \n\n❆ Status: {"Already claimed" if msg.gift_code.unclaimed else "Not yet claimed"} ❗️ \n❆ Channel: @{msg.gift_code.boost_peer.username}\n❆ Gift link: {msg.gift_code.link} \n❆ Number of months of subscription: {msg.gift_code.months}')
 
 async def auto_views_react():
     while not await sleep(20):   
