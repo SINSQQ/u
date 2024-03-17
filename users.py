@@ -79,7 +79,7 @@ async def delete_userbot():
             db.srem(f'{bot.me.id}:{sudo_info.id}:idbots', userbot.me.id)
             db.srem(f'{bot.me.id}:{sudo_info.id}:sessions', userbot.session_string)
             db.srem(f'{config.APP_NEAM}:{sudo_info.id}:sessions', userbot.session_string)
-            db.set(f'{bot.me.id}:{userbot.me.id}:points', 0) 
+            db.delete(f'{bot.me.id}:{userbot.me.id}:points') 
             await userbot.stop()
             try:
                 os.remove(userbot.name)
@@ -884,6 +884,7 @@ async def main():
             db.set(f'{userbot.me.id}:country', country_code)
             db.set(f'{bot.me.id}:{userbot.me.id}:get_session', userbot.session_string)
             db.set(f'{bot.me.id}:{userbot.session_string}:get_id', userbot.me.id)
+            db.set(f'{bot.me.id}:{userbot.me.id}:app_neam', config.APP_NEAM)
         try:
             await userbot.send_log('⌯ Start collecting ✅')
         except Exception as e:
