@@ -29,8 +29,7 @@ userbot = Client(
     f'users/user:{argv[1][:15]}',
     22867191,
     '2c5fdc151fc2b1d93f41e734e20eceda',
-    session_string=argv[1],
-    device_model="Stitch"
+    session_string=argv[1]
 )
 calls = PyTgCalls(userbot)
 
