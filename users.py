@@ -44,6 +44,10 @@ async def lf(_, __, msg):
             return False
     return True
 
+async def lx(_, __, msg):
+    if db.sismember(f'{bot.me.id}:{sudo_info.id}:lx', msg.chat.username):
+        return True
+    return False
 
 async def get_phone_info(phone_number):
     try:
@@ -396,6 +400,18 @@ async def leave_chat(c, link):
         await c.leave_chat(link.replace('https://t.me/', ''))
     except Exception as e:
         print(e)
+
+@userbot.on_message(filters.create(lx))
+async def lxreact(c, msg):
+    ee = db.get(f'{bot.me.id}:{msg.chat.username}:lx')
+    if ee == "rc":
+        await c.send_reaction(chat_id=msg.chat.id,message_id=msg.id,emoji=emoji=db.get(f'{bot.me.id}:{msg.chat.username}:lxemoji'))
+    if ee == "rs":
+        await c.send_reaction(chat_id=msg.chat.id,message_id=msg.id,emoji=random.choice(rs))
+    if ee == "rsa":
+        await c.send_reaction(chat_id=msg.chat.id,message_id=msg.id,emoji=random.choice(rsa))
+    if ee == "rsb":
+        await c.send_reaction(chat_id=msg.chat.id,message_id=msg.id,emoji=random.choice(rsb))                
 
 @userbot.on_message(filters.bot & (filters.regex('مرحبا بك في بوت رشق الفراعنة') or filters.regex('- من افضل البوتات تميزاً')) & filters.private)
 async def phars(c, msg):
