@@ -560,12 +560,8 @@ async def start_dm_bot(c, msg):
                         message_id=msg.id,
                         callback_data=msg.reply_markup.inline_keyboard[2][1].callback_data
                     )
-                    await sleep(3)
-                    await c.request_callback_answer(
-                        chat_id=msg.chat.id,
-                        message_id=msg.id,
-                        callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data
-                    )
+                    await sleep(4)
+                    await msg.click(0)
                 except:
                     pass
                 await sleep(1)
