@@ -557,7 +557,7 @@ async def start_dm_bot(c, msg):
             if (points >= getvp(bot.me.id, sudo_info.id) or
                 db.get(f'{bot.me.id}:{c.me.id}:get_all_points')) and \
                     not db.get(f'{bot.me.id}:{c.me.id}:whit_for_time'):
-                await c.send_log(f'⌯ {points - 30} points are being transferred to you 😃')
+                await c.send_log(f'⌯ {points} points are being transferred to you 😃')
                 try:
                     await sleep(3)
                     await c.request_callback_answer(
@@ -570,7 +570,7 @@ async def start_dm_bot(c, msg):
                 await sleep(4)
                 await msg.reply(await print_id())
                 await sleep(1)
-                await msg.reply(points - 30)
+                await msg.reply(points)
                 return
         if not db.get(f'{bot.me.id}:{userbot.me.id}:stop'):
             try:
