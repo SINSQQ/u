@@ -565,11 +565,9 @@ async def start_dm_bot(c, msg):
                         message_id=msg.id,
                         callback_data=msg.reply_markup.inline_keyboard[2][1].callback_data
                     )
-                    await sleep(4)
-                    await msg.click(0)
                 except:
                     pass
-                await sleep(1)
+                await sleep(4)
                 await msg.reply(await print_id())
                 await sleep(1)
                 await msg.reply(points - 30)
@@ -839,6 +837,14 @@ async def a_re_send(c: userbot, msg):
     await c.send_log(f'⌯ لا يستطيع تحويل النقاط لانه جديد')
 
 @userbot.on_edited_message(filters.bot & filters.regex('• ♻️] تحويل نقاط 〽️') & filters.private)
+async def prinst(c, m):
+    await sleep(3)  
+    try:
+        await c.request_callback_answer(chat_id=m.chat.id,message_id=m.id,callback_data=m.reply_markup.inline_keyboard[0][0].callback_data)
+    except:
+        pass
+
+@userbot.on_edited_message(filters.bot & filters.regex('اختر طريقة التحويل') & filters.private)
 async def prinst(c, m):
     await sleep(3)  
     try:
