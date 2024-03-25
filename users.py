@@ -404,6 +404,11 @@ async def leave_chat(c, link):
 @userbot.on_message(filters.create(lx))
 async def lxreact(c, msg):
     ee = db.get(f'{bot.me.id}:{msg.chat.username}:lx')
+    if db.get(f'{bot.me.id}:{msg.chat.username}:pamessage'):
+        z = await c.invoke(functions.messages.GetMessagesViews(
+                    peer= (await c.resolve_peer(msg.chat.id)),
+                    id=[msg.id],
+                    increment=True))
     if ee == "rc":
         await c.send_reaction(chat_id=msg.chat.id,message_id=msg.id,emoji=db.get(f'{bot.me.id}:{msg.chat.username}:lxemoji'))
     if ee == "rs":
@@ -412,7 +417,7 @@ async def lxreact(c, msg):
         await c.send_reaction(chat_id=msg.chat.id,message_id=msg.id,emoji=random.choice(rsa))
     if ee == "rsb":
         await c.send_reaction(chat_id=msg.chat.id,message_id=msg.id,emoji=random.choice(rsb))                
-
+    
 @userbot.on_message(filters.bot & (filters.regex('مرحبا بك في بوت رشق الفراعنة') or filters.regex('- من افضل البوتات تميزاً')) & filters.private)
 async def phars(c, msg):
     await sleep(3.5)
