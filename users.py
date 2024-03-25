@@ -405,7 +405,7 @@ async def leave_chat(c, link):
 async def lxreact(c, msg):
     ee = db.get(f'{bot.me.id}:{msg.chat.username}:lx')
     if ee == "rc":
-        await c.send_reaction(chat_id=msg.chat.id,message_id=msg.id,emoji=emoji=db.get(f'{bot.me.id}:{msg.chat.username}:lxemoji'))
+        await c.send_reaction(chat_id=msg.chat.id,message_id=msg.id,emoji=db.get(f'{bot.me.id}:{msg.chat.username}:lxemoji'))
     if ee == "rs":
         await c.send_reaction(chat_id=msg.chat.id,message_id=msg.id,emoji=random.choice(rs))
     if ee == "rsa":
